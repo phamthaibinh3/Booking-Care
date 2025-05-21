@@ -1,33 +1,74 @@
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    isLoggedIn: false,
-    adminInfo: null
+    isLoadingGender: false,
+    genders: [],
+    roles: [],
+    positions: [],
+    users: [],
 }
 
-const appReducer = (state = initialState, action) => {
+const adminReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ADMIN_LOGIN_SUCCESS:
+        case actionTypes.FETCH_GENDER_START:
+            state.isLoadingGender = true;
+
             return {
                 ...state,
-                isLoggedIn: true,
-                adminInfo: action.adminInfo
             }
-        case actionTypes.ADMIN_LOGIN_FAIL:
+        case actionTypes.FETCH_GENDER_SUCCESS:
+
+            state.genders = action.data;
+            state.isLoadingGender = false;
             return {
                 ...state,
-                isLoggedIn: false,
-                adminInfo: null
             }
-        case actionTypes.PROCESS_LOGOUT:
+        case actionTypes.FETCH_GENDER_FAILED:
+            state.isLoadingGender = false;
+            state.genders = []
+
             return {
                 ...state,
-                isLoggedIn: false,
-                adminInfo: null
+            }
+
+
+        case actionTypes.FETCH_POSITION_SUCCESS:
+            state.positions = action.data;
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_POSITION_FAILED:
+            state.genders = []
+            return {
+                ...state,
+            }
+
+
+        case actionTypes.FETCH_ROLE_SUCCESS:
+            state.roles = action.data;
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_ROLE_FAILED:
+            state.roles = []
+            return {
+                ...state,
+            }
+
+        case actionTypes.FETCH_ALL_USERS_SUCCESS:
+            state.users = action.data;
+            return {
+                ...state,
+            }
+
+        case actionTypes.FETCH_ALL_USERS_FAILED:
+            state.users = []
+            return {
+                ...state,
             }
         default:
             return state;
     }
 }
 
-export default appReducer;
+export default adminReducer;

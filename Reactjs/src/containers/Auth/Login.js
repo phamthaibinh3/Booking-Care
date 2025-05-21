@@ -38,18 +38,18 @@ class Login extends Component {
         try {
             let data = await handleLoginApi(this.state.username, this.state.password);
             console.log('thai binh check data: ', data);
-            if(data && data.errCode !==0){
+            if (data && data.errCode !== 0) {
                 this.setState({
                     errMessage: data.message
                 })
-            }else{
+            } else {
                 this.props.userLoginSuccess(data.user);
                 console.log('dang nhap thanh cong');
             }
         } catch (e) {
             console.log(e.response);
-            if(e.response){
-                if(e.response.data){
+            if (e.response) {
+                if (e.response.data) {
                     this.setState({
                         errMessage: e.response.data.message
                     })
@@ -87,11 +87,17 @@ class Login extends Component {
                                     className='form-control'
                                     placeholder='Enter your password'
                                     value={this.state.password}
-                                    onChange={(event) => this.handleOnchangePassword(event)} />
+                                    onChange={(event) => this.handleOnchangePassword(event)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            this.handleOnclickLogin();
+                                        }
+                                    }}
+                                />
                                 <i onClick={() => this.handleIsShowPassword()} className={this.state.isShowPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
                             </div>
                         </div>
-                        <div className='col-12' style={{ color:'red' }}>
+                        <div className='col-12' style={{ color: 'red' }}>
                             {this.state.errMessage}
                         </div>
                         <div className='col-12 '>

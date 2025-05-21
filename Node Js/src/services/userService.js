@@ -8,11 +8,11 @@ let handleUserLogin = (email, password) => {
         try {
             let userData = {}
 
-            let isEixtst = checkEmail(email);
+            let isEixtst = await checkEmail(email);
             console.log();
             if (isEixtst) {
                 let user = await db.User.findOne({
-                    attributes: ['email', 'roleId', 'password','firstName','lastName'],
+                    attributes: ['email', 'roleId', 'password', 'firstName', 'lastName'],
                     where: { email: email },
                     raw: true
                 })
@@ -102,9 +102,14 @@ let hastUserPassword = (pass) => {
 let CreateUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let check = await db.User.findOne({
-                where: { email: data.email },
-            })
+            if (!data.email) {
+                resolve({
+                    errCode: 2,
+                    errMessage: 'Missing email parameter!'
+                });
+                return;
+            }
+            let check = await checkEmail(data.email);
             if (check) {
                 resolve({
                     errCode: 1,
@@ -119,7 +124,8 @@ let CreateUser = (data) => {
                     lastName: data.lastName,
                     address: data.address,
                     phonenumber: data.phonenumber,
-                    gender: data.gender === '1' ? true : false,
+                    gender: data.gender,
+                    positionId: data.positionId,
                     roleId: data.roleId,
                 })
                 resolve({
@@ -161,7 +167,7 @@ let deleteUser = (inputId) => {
 let editUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.id) {
+            if (!data.id || !data.gender || !data.roleId || !data.positionId) {
                 resolve({
                     errCode: 2,
                     errMessage: 'Missing required parameters'
@@ -180,6 +186,10 @@ let editUser = (data) => {
                 user.firstName = data.firstName;
                 user.lastName = data.lastName;
                 user.address = data.address;
+                user.phonenumber = data.phonenumber;
+                user.roleId = data.roleId;
+                user.positionId = data.positionId;
+                user.gender = data.gender
 
                 await user.save();
 
