@@ -86,7 +86,6 @@ class UserManage extends Component {
         } else {
             alert(res.errMessage);
         }
-        console.log('check res: ', res);
     }
 
     render() {

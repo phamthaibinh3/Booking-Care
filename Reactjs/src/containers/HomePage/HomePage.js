@@ -10,16 +10,22 @@ import OutStandingDoctor from './Section/OutStandingDoctor';
 import HandBook from './Section/HandBook';
 import About from './Section/About';
 import HomeFooter from './HomeFooter';
+import { after } from 'lodash';
 
 class HomePage extends Component {
+
+    // handleAfterChange = (index,dontAnimate) => {
+
+    // }
 
     render() {
         let settings = {
             dots: true,
-            infinite: true,
+            infinite: false,
             speed: 500,
             slidesToShow: 4,
             slidesToScroll: 1,
+            // slickGoTo: this.handleAfterChange,
         };
         return (
             <>
