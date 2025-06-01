@@ -29,7 +29,7 @@ class HomePage extends Component {
         };
         return (
             <>
-                <Header />
+                <Header isShowBanner={true}/>
                 <Specialty
                     settings={settings}
                 />
