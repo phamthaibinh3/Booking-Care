@@ -42,10 +42,8 @@ class Login extends Component {
                 })
             } else {
                 this.props.userLoginSuccess(data.user);
-                console.log('dang nhap thanh cong');
             }
         } catch (e) {
-            console.log(e.response);
             if (e.response) {
                 if (e.response.data) {
                     this.setState({
