@@ -9,11 +9,11 @@ const getAllUser = (inputId) => {
 }
 
 const createNewUserService = (data) => {
-    return axios.post('/api/create-new-user',data)
+    return axios.post('/api/create-new-user', data)
 }
 
 const deleteUserService = (inputId) => {
-    return axios.delete('/api/delete-user',{data: {id: inputId}})
+    return axios.delete('/api/delete-user', { data: { id: inputId } })
 }
 
 const editeUsersService = (data) => {
@@ -33,7 +33,7 @@ const getAllDoctors = () => {
 }
 
 const saveDetailDoctorService = (data) => {
-    return axios.post('/api/save-infor-doctor',data)
+    return axios.post('/api/save-infor-doctor', data)
 }
 
 const getDetailInforDoctor = (inputId) => {
@@ -41,7 +41,11 @@ const getDetailInforDoctor = (inputId) => {
 }
 
 const saveBulkScheduleDoctor = (data) => {
-    return axios.post('/api/bulk-create-schedule',data)
+    return axios.post('/api/bulk-create-schedule', data)
+}
+
+const getScheduleDoctorByDate = (doctorId, date) => {
+    return axios.get(`/api/get-schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`)
 }
 
 export {
@@ -50,6 +54,7 @@ export {
     createNewUserService,
     deleteUserService, editeUsersService,
     getAllCodeService, getTopDocterHomeService,
-    getAllDoctors,saveDetailDoctorService, getDetailInforDoctor,
-    saveBulkScheduleDoctor
+    getAllDoctors, saveDetailDoctorService, getDetailInforDoctor,
+    saveBulkScheduleDoctor,
+    getScheduleDoctorByDate
 }

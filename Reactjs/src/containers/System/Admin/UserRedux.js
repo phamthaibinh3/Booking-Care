@@ -89,7 +89,7 @@ class UserRedux extends Component {
         let file = data[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
-            console.log('base64: ', base64);
+            // console.log('base64: ', base64);
             let ObjectUrl = URL.createObjectURL(file)
             this.setState({
                 previewImgURL: ObjectUrl,
@@ -187,7 +187,6 @@ class UserRedux extends Component {
     }
 
     render() {
-        console.log('check state action: ', this.state.action);
 
         let genders = this.state.genderArr;
         let { roleArr, positionArr } = this.state;

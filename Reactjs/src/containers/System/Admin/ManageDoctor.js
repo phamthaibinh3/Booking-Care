@@ -82,7 +82,6 @@ class ManageDoctor extends Component {
             doctorId: this.state.selectedOption.value,
             action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE
         })
-        console.log('check action: ',CRUD_ACTIONS.EDIT);
         
     }
 
