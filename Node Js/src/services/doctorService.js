@@ -51,7 +51,7 @@ let getAllDoctors = () => {
 
 let saveDetailInforDoctor = (inputData) => {
     return new Promise(async (resolve, reject) => {
-        
+
         try {
             if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown || !inputData.action) {
                 resolve({ errCode: 1, errMessage: 'Missing parameter' });
@@ -124,46 +124,95 @@ let getDetailDoctorById = (inputId) => {
     })
 }
 
+// let bulkCreateSchedule = (data) => {
+//     return new Promise(async (resolve, reject) => {
+//         console.log('Data from service: ', data);
+
+//         try {
+//             if (!data.arrSchedule || !data.doctorId || !data.formattedDate) {
+//                 resolve({
+//                     errCode: 1,
+//                     errMessage: 'Missing required parameter'
+//                 })
+//             } else {
+//                 let schedule = data.arrSchedule;
+//                 if (schedule && schedule.length > 0) {
+//                     schedule = schedule.map(item => {
+//                         item.maxNumber = MAX_NUMBER_SCHEDULE;
+//                         return item;
+//                     })
+//                 }
+
+//                 //get all existing data
+//                 let existing = await db.Schedule.findAll({
+//                     where: { doctorId: data.doctorId, date: data.formattedDate },
+//                     attributes: ['timeType', 'date', 'doctorId', 'maxNumber'],
+//                     raw: true
+//                 });
+
+//                 // //convert data
+//                 // if(existing && existing.length > 0) {
+//                 //     existing = existing.map(item => {
+//                 //         item.date = new Date(item.date).getTime();
+//                 //         return item;
+//                 //     })
+//                 // }
+
+//                 //compare
+//                 let toCreate = _.differenceWith(schedule, existing, (a, b) => {
+//                     return a.timeType === b.timeType && a.date === b.date;
+//                 });
+
+//                 //create new schedule
+//                 if (toCreate && toCreate.length > 0) {
+//                     await db.Schedule.bulkCreate(toCreate);
+//                 }
+//                 resolve({
+//                     errCode: 0,
+//                     errMessage: 'Create schedule succeed'
+//                 })
+//             }
+//         } catch (e) {
+//             reject(e);
+//         }
+//     })
+// }
+
 let bulkCreateSchedule = (data) => {
-    return new Promise(async (resolve,reject) => {
-        
+    return new Promise(async (resolve, reject) => {
         try {
-            if (!data.arrSchedule || !data.doctorId || !data.formattedDate) {
+            if (!data.arrSchedule || !data.doctorId) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameter'
                 })
             } else {
-                let schedule = data.arrSchedule;
-                if(schedule && schedule.length > 0) {
-                    schedule = schedule.map(item => {
-                        item.maxNumber = MAX_NUMBER_SCHEDULE;
-                        return item;
-                    })
-                }
+                // Đảm bảo date là chuỗi số timestamp
+                let schedule = data.arrSchedule.map(item => {
+                    item.maxNumber = MAX_NUMBER_SCHEDULE;
+                    item.date = String(item.date); // ép sang chuỗi
+                    return item;
+                });
 
-                //get all existing data
+                // Lấy tất cả ngày (timestamp dạng chuỗi) có trong schedule
+                const allDates = schedule.map(item => item.date);
+
+                // Lấy tất cả lịch đã tồn tại của bác sĩ trong các ngày này
                 let existing = await db.Schedule.findAll({
-                    where: { doctorId: data.doctorId, date: data.formattedDate },
+                    where: {
+                        doctorId: data.doctorId,
+                        date: allDates
+                    },
                     attributes: ['timeType', 'date', 'doctorId', 'maxNumber'],
                     raw: true
                 });
 
-                //convert data
-                if(existing && existing.length > 0) {
-                    existing = existing.map(item => {
-                        item.date = new Date(item.date).getTime();
-                        return item;
-                    })
-                }
-
-                //compare
+                // Loại bỏ lịch trùng
                 let toCreate = _.differenceWith(schedule, existing, (a, b) => {
                     return a.timeType === b.timeType && a.date === b.date;
                 });
 
-                //create new schedule
-                if(toCreate && toCreate.length > 0) {
+                if (toCreate && toCreate.length > 0) {
                     await db.Schedule.bulkCreate(toCreate);
                 }
                 resolve({
@@ -177,8 +226,8 @@ let bulkCreateSchedule = (data) => {
     })
 }
 
-let getScheduleByDate = (doctorId,date) => {
-    return new Promise(async(resolve,reject) => {
+let getScheduleByDate = (doctorId, date) => {
+    return new Promise(async (resolve, reject) => {
         try {
             if (!doctorId || !date) {
                 resolve({
@@ -187,10 +236,19 @@ let getScheduleByDate = (doctorId,date) => {
                 })
             } else {
                 let dataSchedule = await db.Schedule.findAll({
-                    where: { 
-                        doctorId: doctorId, 
+                    where: {
+                        doctorId: doctorId,
                         date: date
                     },
+                    include: [
+                        {
+                            model: db.Allcode,
+                            as: 'timeTypeData',
+                            attributes: ['valueEn', 'valueVi']
+                        }
+                    ],
+                    raw: false,
+                    nest: true
                 });
 
                 if (!dataSchedule) dataSchedule = [];
@@ -208,5 +266,5 @@ let getScheduleByDate = (doctorId,date) => {
 
 module.exports = {
     getTopDoctorHome, getAllDoctors, saveDetailInforDoctor,
-    getDetailDoctorById,bulkCreateSchedule,getScheduleByDate
+    getDetailDoctorById, bulkCreateSchedule, getScheduleByDate
 }
