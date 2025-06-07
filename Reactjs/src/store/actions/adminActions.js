@@ -213,7 +213,7 @@ export const fetchTopDoctor = () => {
                 type: actionTypes.FETCH_TOP_DOCTORS_FAILED,
             })
             // toast.error("Update the user failed!");
-            console.log('check loi: ',e);
+            console.log('check loi: ', e);
         }
     }
 }
@@ -252,7 +252,7 @@ export const saveDetailDoctor = (dataInput) => {
                 toast.success('Save infor doctor succeed!');
             } else {
                 dispatch({
-                     type: actionTypes.SAVE_INFOR_DOCTOR_FAILED
+                    type: actionTypes.SAVE_INFOR_DOCTOR_FAILED
                 })
                 toast.error('Save infor doctor failed!');
             }
@@ -285,6 +285,42 @@ export const fetchAllScheduleTime = () => {
             dispatch({
                 type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILED,
             })
+            console.log(e);
+        }
+    }
+}
+
+export const fetchRequiredDoctorInfor = () => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({
+                type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_SUCCESS
+            })
+            let resPrice = await getAllCodeService("PRICE");
+            let resPayment = await getAllCodeService("PAYMENT");
+            let resProvince = await getAllCodeService("PROVINCE");
+
+            if (resPrice && resPrice.errCode === 0 &&
+                resPayment && resPayment.errCode === 0 &&
+                resProvince && resProvince.errCode === 0) {
+                let data = {
+                    resPrice: resPrice.data,
+                    resPayment: resPayment.data,
+                    resProvince: resProvince.data
+                }
+                dispatch({
+                    type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_SUCCESS,
+                    data: data
+                });
+            } else {
+                dispatch({
+                    type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED,
+                });
+            }
+        } catch (e) {
+            dispatch({
+                type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED,
+            });
             console.log(e);
         }
     }

@@ -51,11 +51,19 @@ let getAllDoctors = () => {
 
 let saveDetailInforDoctor = (inputData) => {
     return new Promise(async (resolve, reject) => {
-
         try {
-            if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown || !inputData.action) {
-                resolve({ errCode: 1, errMessage: 'Missing parameter' });
+            if (!inputData.doctorId || !inputData.contentHTML
+                || !inputData.contentMarkdown || !inputData.action
+                || !inputData.selectedPrice || !inputData.selectedPayment
+                || !inputData.selectedProvince || !inputData.clinicName
+                || !inputData.clinicAddress || !inputData.note
+            ) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing parameter'
+                });
             } else {
+                //upsert to markdown table
                 if (inputData.action === 'CREATE') {
                     await db.Markdown.create({
                         contentHTML: inputData.contentHTML,
@@ -74,6 +82,36 @@ let saveDetailInforDoctor = (inputData) => {
                         doctorMarkdown.description = inputData.description;
                         await doctorMarkdown.save();
                     }
+                }
+
+                //upsert to Doctor_infor table
+
+                let doctorInfor = await db.Doctor_Infor.findOne({
+                    where: {
+                        doctorId: inputData.doctorId
+                    },
+                    raw: false
+                })
+                if (doctorInfor) {
+                    doctorInfor.doctorId = inputData.doctorId
+                    doctorInfor.priceId = inputData.selectedPrice;
+                    doctorInfor.paymentId = inputData.selectedPayment;
+                    doctorInfor.provinceId = inputData.selectedProvince;
+
+                    doctorInfor.nameClinic = inputData.clinicName;
+                    doctorInfor.addressClinic = inputData.clinicAddress;
+                    doctorInfor.note = inputData.note;
+                    await doctorMarkdown.save();
+                }else{
+                    await db.Doctor_Infor.create({
+                        doctorId: inputData.doctorId,
+                        priceId: inputData.selectedPrice,
+                        paymentId: inputData.selectedPayment,
+                        provinceId: inputData.selectedProvince,
+                        nameClinic: inputData.clinicName,
+                        addressClinic: inputData.clinicAddress,
+                        note: inputData.note
+                    });
                 }
                 resolve({ errCode: 0, errMessage: 'Save doctor detail succeed' });
             }
