@@ -54,23 +54,28 @@
         "save": "Save",
         "edit": "Edit user"
     },
-    "homepage":{
+    "homepage": {
         "out-standing-doctor": "Outstanding doctors",
         "more-info": "See more"
     },
-
     "manage-schedule": {
         "title": "Manage doctor's appointment schedule",
         "choose-doctor": "Choose a doctor",
         "choose-date": "Choose a date",
         "save": "Save information"
     },
-    "patient":{
-        "detail-doctor":{
+    "patient": {
+        "detail-doctor": {
             "schedule": "Schedule",
             "no-schedule": "Doctor has no schedule, please choose another date",
             "choose": "Choose ",
             "book-free": " and book (free)"
+        },
+        "extra-infor-doctor": {
+            "text-address": "Clinic Address",
+            "price": "Consultation Fee",
+            "payment": "Patients can pay by: ",
+            "hide-price": "Hide details"
         }
     },
     "admin": {
