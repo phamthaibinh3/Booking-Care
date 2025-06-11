@@ -76,6 +76,20 @@
             "price": "Consultation Fee",
             "payment": "Patients can pay by: ",
             "hide-price": "Hide details"
+        },
+        "booking-modal": {
+            "title": "Booking Information",
+            "fullName": "Full Name",
+            "phoneNumber": "Phone Number",
+            "email": "Email Address",
+            "address": "Contact Address",
+            "reason": "Reason for Visit",
+            "birthday": "Date of Birth",
+            "gender": "Gender",
+            "btnConfirm": "Confirm",
+            "btnCancel": "Cancel",
+            "priceBooking": "Free Booking",
+            "price": "Consultation Fee: "
         }
     },
     "admin": {
