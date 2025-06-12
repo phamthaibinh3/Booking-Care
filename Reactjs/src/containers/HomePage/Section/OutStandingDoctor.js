@@ -35,6 +35,8 @@ class OutStandingDoctor extends Component {
     render() {
         let language = this.props.language;
         let arrDoctors = this.state.arrDoctors;
+        console.log('check all doctor: ',this.props.allDoctors);
+        
         return (
             <div className='section-share section-outstanding-doctor'>
                 <div className='section-container'>
@@ -87,13 +89,15 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
-        topDoctorsRedux: state.admin.topDoctors
+        topDoctorsRedux: state.admin.allDoctors,
+        allDoctors: state.admin.allDoctors
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        loadTopDoctors: () => dispatch(actions.fetchTopDoctor()),
+        loadTopDoctors: () => dispatch(actions.fetchAllDoctors()),
+        allDoctor: () => dispatch(actions.fetchAllDoctors()),
     };
 };
 

@@ -231,9 +231,6 @@ class ManageDoctor extends Component {
     render() {
         let selectedOption = this.state.selectedOption;
         let { hasOldData } = this.state;
-        console.log('check state: ', this.state);
-        console.log();
-        
 
         return (
             <div className='manage-doctor-container'>

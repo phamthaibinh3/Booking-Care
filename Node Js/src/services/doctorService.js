@@ -35,9 +35,13 @@ let getAllDoctors = () => {
         try {
             let doctors = await db.User.findAll({
                 where: { roleId: 'R2' },
+                include: [
+                    { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+                ],
                 attributes: {
-                    exclude: ['password', 'image']
-                }
+                    exclude: ['password']
+                },
+                raw: false
             })
             resolve({
                 errCode: 0,
@@ -290,11 +294,8 @@ let getScheduleByDate = (doctorId, date) => {
                         date: date
                     },
                     include: [
-                        {
-                            model: db.Allcode,
-                            as: 'timeTypeData',
-                            attributes: ['valueEn', 'valueVi']
-                        }
+                        { model: db.Allcode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.User, as: 'doctorData', attributes: ['firstName', 'lastName'] }
                     ],
                     raw: false,
                     nest: true
@@ -363,7 +364,7 @@ let getProfileDoctorById = (doctorId) => {
                         exclude: ['password']
                     },
                     include: [
-                         {
+                        {
                             model: db.Markdown,
                             attributes: ['contentHTML', 'contentMarkdown', 'description']
                         },
