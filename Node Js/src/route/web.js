@@ -3,6 +3,7 @@ import homeController from "../controllers/homeController";
 import userController from "../controllers/userController"
 import docdoctorController from '../controllers/doctorController'
 import patientController from '../controllers/patientController'
+import specialtyController from '../controllers/specialtyController'
 
 let router = express.Router();
 
@@ -36,7 +37,10 @@ let initWebRoutes = (app) => {
     router.get('/api/get-profile-doctor-by-id', docdoctorController.getProfileDoctorById);
 
     router.post('/api/patient-book-appointment', patientController.postPatientBookAppointment);
-    router.post('/api/verify-book-appointment', patientController.postVerifyBookAppointment)
+    router.post('/api/verify-book-appointment', patientController.postVerifyBookAppointment);
+
+    router.post('/api/create-new-specialty', specialtyController.createNewSpecialty);
+    router.get('/api/get-specialty',specialtyController.getAllSpecialty)
 
     return app.use("/",router)
 }

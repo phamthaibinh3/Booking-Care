@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './Specialty.scss'
-
 import Slider from "react-slick";
-
 // import Carousel from "react-multi-carousel";
 // import "react-multi-carousel/lib/styles.css";
 import specialtyImg from '../../../assets/images/specialty/ong-nghiem.jpg'
-
+import { getAllSpecialty } from '../../../services/userService';
 class Specialty extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataSpecialty: []
+        }
+    }
 
+    async componentDidMount() {
+        let res = await getAllSpecialty();
+        if (res && res.errCode === 0) {
+            this.setState({
+                dataSpecialty: res && res.data ? res.data : []
+            })
+        }
+    }
     render() {
+        let { dataSpecialty } = this.state
+        console.log('check state: ',dataSpecialty);
         
         // const responsive = {
         //     superLargeDesktop: {
@@ -40,30 +54,20 @@ class Specialty extends Component {
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
-                            <div className='section-custommize'>
-                                <div  className='bg-image section-specialty'/>
-                                <div>Cơ xường khớp 1</div>
-                            </div>
-                            <div className='section-custommize'>
-                                <div  className='bg-image section-specialty'/>
-                                <div>Cơ xường khớp 2</div>
-                            </div>
-                            <div className='section-custommize'>
-                                <div  className='bg-image section-specialty'/>
-                                <div>Cơ xường khớp 3</div>
-                            </div>
-                            <div className='section-custommize'>
-                                <div  className='bg-image section-specialty'/>
-                                <div>Cơ xường khớp 4</div>
-                            </div>
-                            <div className='section-custommize'>
-                                <div  className='bg-image section-specialty'/>
-                                <div>Cơ xường khớp 5</div>
-                            </div>
-                            <div className='section-custommize'>
-                                <div  className='bg-image section-specialty'/>
-                                <div>Cơ xường khớp 6</div>
-                            </div>
+                            {dataSpecialty && dataSpecialty.length > 0 &&
+                                dataSpecialty.map((item, index) => {
+                                    return (
+                                        <div className='section-custommize speacialty-child' key={index}>
+                                            <div
+                                                className='bg-image section-specialty'
+                                                style={{backgroundImage: `url(${item.image})`}}
+                                            />
+                                            <div className='specialty-name'>{item.name}</div>
+                                        </div>
+                                    )
+                                })
+                            }
+
                         </Slider>
                     </div>
 
