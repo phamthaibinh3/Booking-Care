@@ -33,7 +33,6 @@ class Specialty extends Component {
 
     render() {
         let { dataSpecialty } = this.state
-        console.log('check state: ', dataSpecialty);
 
         // const responsive = {
         //     superLargeDesktop: {
