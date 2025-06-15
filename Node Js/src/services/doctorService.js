@@ -83,7 +83,7 @@ let saveDetailInforDoctor = (inputData) => {
                     errMessage: `Missing parameter: ${checkObj.element}`
                 });
             } else {
-                //upsert to markdown table
+                // Upsert to Markdown table
                 if (inputData.action === 'CREATE') {
                     await db.Markdown.create({
                         contentHTML: inputData.contentHTML,
@@ -104,26 +104,23 @@ let saveDetailInforDoctor = (inputData) => {
                     }
                 }
 
-                //upsert to Doctor_infor table
-
+                // Upsert to Doctor_Infor table
                 let doctorInfor = await db.Doctor_Infor.findOne({
                     where: {
                         doctorId: inputData.doctorId
                     },
                     raw: false
-                })
+                });
                 if (doctorInfor) {
-                    doctorInfor.doctorId = inputData.doctorId
                     doctorInfor.priceId = inputData.selectedPrice;
                     doctorInfor.paymentId = inputData.selectedPayment;
                     doctorInfor.provinceId = inputData.selectedProvince;
-
                     doctorInfor.nameClinic = inputData.clinicName;
                     doctorInfor.addressClinic = inputData.clinicAddress;
                     doctorInfor.note = inputData.note;
                     doctorInfor.specialtyId = inputData.specialtyId;
                     doctorInfor.clinicId = inputData.clinicId;
-                    await doctorMarkdown.save();
+                    await doctorInfor.save(); // Đúng: cập nhật Doctor_Infor
                 } else {
                     await db.Doctor_Infor.create({
                         doctorId: inputData.doctorId,

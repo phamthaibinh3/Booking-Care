@@ -60,8 +60,7 @@
                 height: 150px;
                 background-position: center center;
                 background-repeat: no-repeat;
-                background-size: cover;
-                background-color: #eee;
+                background-size: contain;
 
                 &.section-specialty {
                     // background-image: url('../../assets/images/specialty/ong-nghiem.jpg');
@@ -69,7 +68,7 @@
                 }
 
                 &.section-medical-facility {
-                    background-image: url('../../assets/images/medical-facility/141028-hoidapcongdong.jpeg');
+                    // background-image: url('../../assets/images/medical-facility/141028-hoidapcongdong.jpeg');
                 }
 
                 &.section-outstanding-doctor {

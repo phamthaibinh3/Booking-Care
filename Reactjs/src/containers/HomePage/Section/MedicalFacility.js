@@ -11,14 +11,25 @@ class MedicalFacility extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataClinic: []
+            dataClinics: []
         }
     }
 
     async componentDidMount() {
         let res = await getAllClinic()
+        this.setState({
+            dataClinics: res.data ? res.data : []
+        })
     }
+
+    handleViewDetailClinic = (item) => {
+        if (this.props.history) {
+            this.props.history.push(`/detail-clinic/${item.id}`)
+        }
+    }
+
     render() {
+        let { dataClinics } = this.state
 
         return (
             <div className='section-share section-medical-facility'>
@@ -29,30 +40,21 @@ class MedicalFacility extends Component {
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
-                            <div className='section-custommize'>
-                                <div className='bg-image section-medical-facility' />
-                                <div>Hệ thống Thu Cúc 1</div>
-                            </div>
-                            <div className='section-custommize'>
-                                <div className='bg-image section-medical-facility' />
-                                <div>Hệ thống Thu Cúc 2</div>
-                            </div>
-                            <div className='section-custommize'>
-                                <div className='bg-image section-medical-facility' />
-                                <div>Hệ thống Thu Cúc 3</div>
-                            </div>
-                            <div className='section-custommize'>
-                                <div className='bg-image section-medical-facility' />
-                                <div>Hệ thống Thu Cúc 4</div>
-                            </div>
-                            <div className='section-custommize'>
-                                <div className='bg-image section-medical-facility' />
-                                <div>Hệ thống Thu Cúc 5</div>
-                            </div>
-                            <div className='section-custommize'>
-                                <div className='bg-image section-medical-facility' />
-                                <div>Hệ thống Thu Cúc 6</div>
-                            </div>
+                            {dataClinics && dataClinics.length > 0 &&
+                                dataClinics.map((item, index) => {
+                                    return (
+                                        <div className='section-custommize clinic-child'
+                                            key={index}
+                                            onClick={() => this.handleViewDetailClinic(item)}
+                                        >
+                                            <div className='bg-image section-medical-facility'
+                                                style={{ backgroundImage: `url(${item.image})` }}
+                                            />
+                                            <div className='clinic-name'>{item.name}</div>
+                                        </div>
+                                    )
+                                })
+                            }
                         </Slider>
                     </div>
                 </div>
