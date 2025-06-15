@@ -6,7 +6,7 @@ import localizezation from 'moment/locale/vi';
 import { LANGUAGES } from '../../../utils';
 import { getScheduleDoctorByDate } from '../../../services/userService';
 import { FormattedMessage } from 'react-intl';
-import  BookingModal  from './BookingModal'
+import BookingModal from './BookingModal'
 
 class DoctorSchedule extends Component {
 
@@ -23,6 +23,14 @@ class DoctorSchedule extends Component {
     async componentDidMount() {
         let { language } = this.props;
         let allDays = this.getArrDays(language);
+
+        if (this.props.docTorIdFromParent) {
+            let res = await getScheduleDoctorByDate(this.props.docTorIdFromParent, allDays[0].value);
+            this.setState({
+                allAvailableTime: res && res.errCode === 0 ? res.data : [],
+            })
+        }
+        
         this.setState({
             allDays: allDays,
         });
@@ -102,7 +110,7 @@ class DoctorSchedule extends Component {
             isOpenModalBooking: true,
             dataScheduleTimeModal: time
         })
-        console.log('check time: ',time);
+        console.log('check time: ', time);
 
     }
 
@@ -113,7 +121,7 @@ class DoctorSchedule extends Component {
     }
 
     render() {
-        let { allDays, allAvailableTime, isOpenModalBooking,dataScheduleTimeModal } = this.state;
+        let { allDays, allAvailableTime, isOpenModalBooking, dataScheduleTimeModal } = this.state;
         let { language } = this.props;
 
         return (
@@ -147,10 +155,10 @@ class DoctorSchedule extends Component {
                                         {allAvailableTime.map((item, index) => {
                                             let timeDisplay = language === LANGUAGES.VI ? item.timeTypeData.valueVi : item.timeTypeData.valueEn;
                                             return (
-                                                <button 
-                                                key={index} 
-                                                className='btn btn-primary btn-time'
-                                                onClick={() => this.handleClickScheduleTime(item)}
+                                                <button
+                                                    key={index}
+                                                    className='btn btn-primary btn-time'
+                                                    onClick={() => this.handleClickScheduleTime(item)}
                                                 >
                                                     {timeDisplay}
                                                 </button>
