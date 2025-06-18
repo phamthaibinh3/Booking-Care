@@ -20,6 +20,9 @@ class DetailDoctor extends Component {
     }
 
     async componentDidMount() {
+        if (window.FB) {
+            window.FB.XFBML.parse();
+        }
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
             let id = this.props.match.params.id;
             this.setState({
@@ -70,6 +73,14 @@ class DetailDoctor extends Component {
                                         {detailDoctor.Markdown.description}
                                     </span>
                                 }
+                            </div>
+                            <div class="fb-like"
+                                data-href="https://your-url.com"
+                                data-width=""
+                                data-layout="standard"
+                                data-action="like"
+                                data-size="small"
+                                data-share="true">
                             </div>
                         </div>
                     </div>

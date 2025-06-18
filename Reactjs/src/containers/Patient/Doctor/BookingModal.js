@@ -234,6 +234,7 @@ class BookingModal extends Component {
                                         onChange={this.handleOnchangeDatePicker}
                                         className="form-control"
                                         value={this.state.birthday}
+                                        maxDate={new Date()}
                                     />
                                 </div>
                                 <div className='col-6 form-group'>
