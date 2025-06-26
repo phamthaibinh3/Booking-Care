@@ -2,7 +2,9 @@
     "home-header": {
         "specialty": "Chuyên khoa",
         "searchdoctor": "Tìm bác sĩ chuyên khoa",
-        "welcome": "Xin chào, "
+        "welcome": "Xin chào, ",
+        "medicalFacility": "Cơ sở y tế",
+        "featuredDoctor": "Bác sĩ nổi bật"
     },
     "banner": {
         "title1": "NỀN TẢNG Y TẾ",

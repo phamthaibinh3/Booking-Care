@@ -39,10 +39,11 @@
             height: 100%;
             width: 55%;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-evenly;
             align-items: center;
 
             .child-content {
+                cursor: pointer;
                 .subs-title {
                     font-size: 12px;
                     font-weight: 400;

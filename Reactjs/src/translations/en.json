@@ -2,7 +2,9 @@
     "home-header": {
         "specialty": "Medical specialty",
         "searchdoctor": "Find a doctor by specialty",
-        "welcome": "Welcome, "
+        "welcome": "Welcome, ",
+        "medicalFacility": "Medical Facility",
+        "featuredDoctor": "Featured Doctor"
     },
     "banner": {
         "title1": "MEDICAL PLATFORM",

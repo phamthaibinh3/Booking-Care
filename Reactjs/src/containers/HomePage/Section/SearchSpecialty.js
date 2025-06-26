@@ -32,15 +32,10 @@ class Specialty extends Component {
     }
 
     render() {
+        // console.log('log props specialty: ',this.state.dataSpecialty);
+        
         let { dataSpecialty } = this.state
-        let { dataSpecialty1, filterKeyword } = this.props;
 
-        let filteredSpecialty = dataSpecialty1;
-        if (filterKeyword) {
-            filteredSpecialty = dataSpecialty1.filter(item =>
-                item.name.toLowerCase().includes(filterKeyword.toLowerCase())
-            );
-        }
         // const responsive = {
         //     superLargeDesktop: {
         //         // the naming can be any, depends on you.
@@ -68,7 +63,7 @@ class Specialty extends Component {
                         <button className='btn-section'>Xem thêm</button>
                     </div>
                     <div className='section-body'>
-                        {/* <Slider {...this.props.settings}>
+                        <Slider {...this.props.settings}>
                             {dataSpecialty && dataSpecialty.length > 0 &&
                                 dataSpecialty.map((item, index) => {
                                     return (
@@ -87,24 +82,6 @@ class Specialty extends Component {
                                 })
                             }
 
-                        </Slider> */}
-
-                        <Slider {...this.props.settings}>
-                            {filteredSpecialty && filteredSpecialty.length > 0 ?
-                                filteredSpecialty.map((item, index) => (
-                                    <div key={index}
-                                        className='section-custommize specialty-child'
-                                        onClick={() => this.handleViewDetailSpecialty(item)}
-                                    >
-                                        <div
-                                            className='bg-image section-specialty'
-                                            style={{ backgroundImage: `url(${item.image})` }}
-                                        />
-                                        <div className='specialty-name'>{item.name}</div>
-                                    </div>
-                                )) :
-                                <div style={{ padding: '20px' }}>Không tìm thấy chuyên khoa phù hợp.</div>
-                            }
                         </Slider>
                     </div>
 
