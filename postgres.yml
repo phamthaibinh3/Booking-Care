@@ -15,4 +15,4 @@ services:
 volumes:
     postgres:
 
-#docker-compose -f postgres.yml -p hoidanit-postgres up --build -d
+#docker-compose -f postgres.yml -p thaibinhpostgres up --build -d
